@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CommentsItemView extends LinearLayout {
-    private TextView commentsId;
+    private TextView commentsWriter;
     private TextView commentsTime;
 
     public CommentsItemView(Context context) {
@@ -24,13 +24,13 @@ public class CommentsItemView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.comments_item, this, true);
 
-        commentsId = (TextView) findViewById(R.id.commentsId);
+        commentsWriter = (TextView) findViewById(R.id.commentsWriter);
         commentsTime = (TextView) findViewById(R.id.commentsTime);
 
     }
 
     public void setId(String id) {
-        commentsId.setText(id);
+        commentsWriter.setText(id);
     }
 
     public void setTime(int time) {

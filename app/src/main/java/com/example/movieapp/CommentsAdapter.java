@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.io.Serializable;
@@ -45,13 +46,17 @@ class CommentsAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.comments_item, viewGroup, false);
         }
 
-        TextView commentsId = (TextView) view.findViewById(R.id.commentsId);
+        TextView commentsWriter = (TextView) view.findViewById(R.id.commentsWriter);
         TextView commentsTime = (TextView) view.findViewById(R.id.commentsTime);
+        RatingBar commentsRating = (RatingBar) view.findViewById(R.id.commentsRating);
+        TextView commentsContent = (TextView) view.findViewById(R.id.commentsContent);
+        TextView commentsRecommend = (TextView) view.findViewById(R.id.commentsRecommend);
 
-        commentsId.setText(items.get(i).getId());
-        commentsTime.setText(String.valueOf(items.get(i).getTime()));
-
-        Log.d("TAG", "" + items.get(i).getId() + ", " + items.get(i).getTime());
+        commentsWriter.setText(items.get(i).getWriter());
+        commentsTime.setText(items.get(i).getTime());
+        commentsRating.setRating(items.get(i).getRating());
+        commentsContent.setText(items.get(i).getContent());
+        commentsRecommend.setText(items.get(i).getRecommend());
 
         return view;
 //            CommentsItemView commentsItemView = new CommentsItemView(getApplicationContext());

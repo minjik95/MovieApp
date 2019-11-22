@@ -23,7 +23,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/commentsId"
+            android:id="@+id/commentsWriter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="kym71**"
@@ -39,28 +39,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="분전"/>
 
             <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/commentsRating"
                 style="@style/Widget.AppCompat.RatingBar.Small"
-                android:isIndicator="false"
-                android:numStars="5"
-                android:rating="5"
-                android:stepSize="0.5"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:isIndicator="true"
                 android:max="5"
+                android:numStars="5"
                 android:progressTint="#B2EBF4"
+                android:rating="5"
                 android:secondaryProgressTint="@android:color/transparent"
-                android:layout_marginLeft="10dp"/>
+                android:stepSize="0.1" />
 
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/commentsContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="적당히 재밌다. 오랜만에 잠 안오는 영화 봤네요."
@@ -77,7 +75,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="추천     0"
+                android:text="추천     "
+                android:textColor="#000000"
+                android:textSize="14dp"/>
+
+            <TextView
+                android:id="@+id/commentsRecommend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
                 android:textColor="#000000"
                 android:textSize="14dp"/>
 

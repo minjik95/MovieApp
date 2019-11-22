@@ -41,12 +41,11 @@
 
                 <ImageView
                     android:id="@+id/movieMainImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="140dp"
+                    android:layout_height="200dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:src="@drawable/image11"/>
+                    android:layout_marginBottom="15dp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -75,10 +74,10 @@
                         <ImageView
                             android:id="@+id/movieAgeRating"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
-                            android:src="@drawable/ic_15"/>
+                            android:src="@drawable/ic_15" />
 
                     </LinearLayout>
 
@@ -90,21 +89,67 @@
                         android:layout_marginBottom="10dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/movieReleaseDate"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/movieInfo"
-                            android:text="2014.07.23 개봉"
-                            android:textColor="#ffffff"
-                            android:textSize="15dp"/>
+                            android:orientation="horizontal">
 
-                        <TextView
+                            <TextView
+                                android:id="@+id/movieReleaseDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/movieInfo"
+                                android:text="2014.07.23"
+                                android:textColor="#ffffff"
+                                android:textSize="15dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/movieInfo"
+                                android:text=" 개봉"
+                                android:textColor="#ffffff"
+                                android:textSize="15dp"/>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="액션 / 137분"
-                            android:textColor="#ffffff"
-                            android:textSize="15dp"/>
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/movieGenre"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="액션"
+                                android:textColor="#ffffff"
+                                android:textSize="15dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" / "
+                                android:textColor="#ffffff"
+                                android:textSize="15dp"/>
+
+                            <TextView
+                                android:id="@+id/movieDuration"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="137"
+                                android:textColor="#ffffff"
+                                android:textSize="15dp"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="분"
+                                android:textColor="#ffffff"
+                                android:textSize="15dp"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -116,13 +161,13 @@
                         android:layout_marginTop="15dp">
 
                         <Button
-                            android:id="@+id/thumb_up"
+                            android:id="@+id/thumbUp"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:background="@drawable/thumb_up"/>
 
                         <TextView
-                            android:id="@+id/thumb_up_num"
+                            android:id="@+id/thumbUpNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="15dp"
@@ -132,15 +177,17 @@
                             android:textStyle="bold"/>
 
                         <Button
-                            android:id="@+id/thumb_down"
+                            android:id="@+id/thumbDown"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:background="@drawable/thumb_down"/>
 
                         <TextView
-                            android:id="@+id/thumb_down_num"
+                            android:id="@+id/thumbDownNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginLeft="5dp"
                             android:text="1"
                             android:textColor="#ffffff"
                             android:textStyle="bold"/>
@@ -171,14 +218,44 @@
                         android:text="예매율"
                         android:textSize="14dp" />
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:layout_below="@+id/movieTicketSales"
-                        android:layout_marginBottom="10dp"
-                        android:text="5위 1.8%"
-                        android:textStyle="bold"/>
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/movieReservationGrade"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="5"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="위 "
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:id="@+id/movieReservationRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="1.8"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="%"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 
@@ -212,16 +289,18 @@
                         android:isIndicator="false"
                         android:numStars="5"
                         android:rating="4.5"
-                        android:stepSize="0.5"
+                        android:stepSize="0.1"
                         android:max="5" />
 
                     <TextView
+                        android:id="@+id/movieAudienceRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_below="@+id/movieRating"
                         android:layout_toRightOf="@+id/movieRatingBar"
                         android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="6dp"
                         android:text="8.2"
                         android:textStyle="bold"/>
 
@@ -248,14 +327,29 @@
                         android:text="누적관객수"
                         android:textSize="14dp"/>
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
                         android:layout_below="@+id/movieTotalAudience"
-                        android:layout_marginBottom="10dp"
-                        android:text="839,3999명"
-                        android:textStyle="bold"/>
+                        android:layout_centerHorizontal="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/movieAudience"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="839,3999"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="10dp"
+                            android:text="명"
+                            android:textStyle="bold"/>
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 
@@ -282,22 +376,11 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/movieSynopsis"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="군도, 백성을 구하라!\n양반과 탐관오리들의 착취가 극에 달했던 조선 철종 13년.\n힘 없는 백성의 편이 되어 세상을 바로잡고자 하는 의적떼인\n군도(群盜), 지리산 추설이 있었다." />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="쌍칼 도치 vs 백성의 적 조윤\n잦은 자연재해, 기근과 관의 횡포까지 겹쳐 백성들의 삶이\n날로 피폐해 져 가는 사이, 나주 대부호의 서자로 조선\n최고의 무관 출신인 조윤은 극악한 수법으로 양민들을 수탈,\n삼남지방 최고의 대부호로 성장한다. 한편 소, 돼지를 잡아\n근근이 살아가던 천한 백정 돌무치는 죽어도 잊지 못할\n끔찍한 일을 당한 뒤 군도에 합류. 지리산 추설의 신 거성(新 \n巨星) 도치로 거듭난다.
-    "/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="뭉치면 백성, 흩어지면 도적!\n망할 세상을 뒤집기 위해, 백성이 주인인 새 세상을 향해\n도치를 필두로 한 군도는 백성의 적, 조윤과 한 판 승부를\n시작하는데..."/>
 
             </LinearLayout>
 
@@ -334,6 +417,7 @@
                         android:textColor="#000000"/>
 
                     <TextView
+                        android:id="@+id/movieDirector"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="윤종빈"/>
@@ -353,6 +437,7 @@
                         android:textColor="#000000"/>
 
                     <TextView
+                        android:id="@+id/movieActor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="하정우(도치), 강동원(조윤)"/>

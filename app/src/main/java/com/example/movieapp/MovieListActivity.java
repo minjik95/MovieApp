@@ -1,6 +1,7 @@
 package com.example.movieapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -11,23 +12,45 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class MovieListActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private MovieItem1 movieItem1;
-    private MovieItem2 movieItem2;
-    private MovieItem3 movieItem3;
-    private MovieItem4 movieItem4;
-    private MovieItem5 movieItem5;
-    private MovieItem6 movieItem6;
+    private RequestQueue requestQueue;
+
+    private ViewPager viewPager;
+    private ViewPagerAdapter viewPagerAdapter;
+
+    private int count;
+
+    private ArrayList<String> ids = new ArrayList<>();
+    private ArrayList<String> reservation_grades = new ArrayList<>();
+    private ArrayList<String> titles = new ArrayList<>();
+    private ArrayList<String> reservation_rates = new ArrayList<>();
+    private ArrayList<String> grades = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
+
+    private ArrayList<MovieItem> movieItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movielist);
 
+        if(requestQueue == null) requestQueue = Volley.newRequestQueue(getApplicationContext());
+        sendRequest();
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_list);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("영화 목록");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_list);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -41,32 +64,65 @@ public class MovieListActivity extends AppCompatActivity implements NavigationVi
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_list);
         navigationView.setNavigationItemSelectedListener(this);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(3);
 
         /*viewPager.setClipToPadding(false);
         viewPager.setPadding(20,0,20,0);
         viewPager.setPageMargin(10);*/
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        movieItem1 = new MovieItem1();
-        viewPagerAdapter.addItem(movieItem1);
+    }
 
-        movieItem2 = new MovieItem2();
-        viewPagerAdapter.addItem(movieItem2);
+    public void sendRequest() {
+        String url = "http://boostcourse-appapi.connect.or.kr:10000/movie/readMovieList?type=1";
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                url,
+                new Response.Listener<String>() {
 
-        movieItem3 = new MovieItem3();
-        viewPagerAdapter.addItem(movieItem3);
+                    @Override
+                    public void onResponse(String response) {
+                        processResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("responseError", "" + error.getMessage());
+                    }
+                }
+        );
 
-        movieItem4 = new MovieItem4();
-        viewPagerAdapter.addItem(movieItem4);
+        request.setShouldCache(false);
+        requestQueue.add(request);
+    }
+    public void processResponse(String response) {
+        Gson gson = new Gson();
+        ReadMovieList readMovieList = gson.fromJson(response, ReadMovieList.class);
 
-        movieItem5 = new MovieItem5();
-        viewPagerAdapter.addItem(movieItem5);
+        if(readMovieList != null) {
+            count = readMovieList.result.size();
 
-        movieItem6 = new MovieItem6();
-        viewPagerAdapter.addItem(movieItem6);
+            for(int i = 0; i < count; i++) {
+                ids.add(readMovieList.result.get(i).id);
+                reservation_grades.add(readMovieList.result.get(i).reservation_grade);
+                titles.add(readMovieList.result.get(i).title);
+                reservation_rates.add(readMovieList.result.get(i).reservation_rate);
+                grades.add(readMovieList.result.get(i).grade);
+                images.add(readMovieList.result.get(i).image);
+            }
+
+            addToViewPagerAdapter();
+        }
+    }
+
+    public void addToViewPagerAdapter() {
+        for(int i = 0; i < count; i++) {
+            movieItems.add(new MovieItem(ids.get(i), reservation_grades.get(i), titles.get(i), reservation_rates.get(i), grades.get(i), images.get(i)));
+            viewPagerAdapter.addItem(movieItems.get(i));
+        }
 
         viewPager.setAdapter(viewPagerAdapter);
     }
