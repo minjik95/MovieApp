@@ -1,7 +1,6 @@
 package com.example.movieapp;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 class CommentsAdapter extends BaseAdapter {
@@ -59,12 +57,5 @@ class CommentsAdapter extends BaseAdapter {
         commentsRecommend.setText(items.get(i).getRecommend());
 
         return view;
-//            CommentsItemView commentsItemView = new CommentsItemView(getApplicationContext());
-//            CommentsItem item = items.get(i);
-//
-//            commentsItemView.setId(item.getId());
-//            commentsItemView.setTime(item.getTime());
-//
-//            return commentsItemView;
     }
 }

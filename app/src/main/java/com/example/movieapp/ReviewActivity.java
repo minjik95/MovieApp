@@ -17,6 +17,7 @@ public class ReviewActivity extends AppCompatActivity {
     private TextView reviewTitle;
     private ImageView reviewGrade;
 
+    private String id;
     private String title;
     private String grade;
 
@@ -26,6 +27,8 @@ public class ReviewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review);
 
         Intent intent = getIntent();
+
+        id = intent.getExtras().getString("id");
         title = intent.getExtras().getString("title");
         grade = intent.getExtras().getString("grade");
 
@@ -38,7 +41,8 @@ public class ReviewActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mainIntent = new Intent(getApplication(), MainActivity.class);
+                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                mainIntent.putExtra("id", id);
                 startActivity(mainIntent);
             }
         });

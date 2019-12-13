@@ -1,11 +1,12 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:listPopupWindowStyle">@style/ListPopupMenuTheme</item>
+        <item name="android:dropDownListViewStyle">@style/ListPopupMenuView</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -14,8 +15,35 @@
     </style>
 
     <style name="ToolbarTitleText">
-    <item name="android:textSize">20dp</item>
-    <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_base</item>
+    </style>
+
+    <style name="ListPopupMenuTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:popupBackground">@color/colorPrimary</item>
+    </style>
+
+    <style name="ListPopupMenuView" parent="@style/Widget.AppCompat.ListView.DropDown">
+        <item name="android:divider">@color/colorDarkGray</item>
+        <item name="android:dividerHeight">1dp</item>
+    </style>
+
+    <style name="AnimationTheme">
+        <item name="android:windowEnterAnimation">@anim/translate_down</item>
+        <item name="android:windowExitAnimation">@anim/translate_up</item>
+    </style>
+
+    <!--<style name="DownAnimationTheme">
+        <item name="android:windowEnterAnimation">@anim/translate_down</item>
+    </style>
+
+    <style name="UpAnimationTheme">
+        <item name="android:windowExitAnimation">@anim/translate_up</item>
+    </style>-->
 
 </resources>

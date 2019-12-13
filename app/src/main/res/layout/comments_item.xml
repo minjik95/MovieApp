@@ -26,7 +26,7 @@
             android:id="@+id/commentsWriter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="kym71**"
+            android:text=""
             android:textColor="#000000"
             android:textStyle="bold"/>
 
@@ -38,7 +38,8 @@
                 android:id="@+id/commentsTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"/>
+                android:text=""
+                android:textColor="@color/colorDarkGray"/>
 
             <RatingBar
                 android:id="@+id/commentsRating"
@@ -61,7 +62,7 @@
             android:id="@+id/commentsContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="적당히 재밌다. 오랜만에 잠 안오는 영화 봤네요."
+            android:text=""
             android:textSize="16dp"
             android:textColor="#000000"
             android:layout_marginTop="14dp"/>
@@ -83,14 +84,15 @@
                 android:id="@+id/commentsRecommend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text=""
                 android:textColor="#000000"
                 android:textSize="14dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="     |     신고하기"/>
+                android:text="     |     신고하기"
+                android:textColor="@color/colorBlack"/>
 
         </LinearLayout>
 

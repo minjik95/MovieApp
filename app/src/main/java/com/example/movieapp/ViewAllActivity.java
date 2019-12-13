@@ -19,7 +19,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
-import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,7 +91,11 @@ public class ViewAllActivity extends AppCompatActivity {
         writeReviews2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent reviewIntent = new Intent(getApplicationContext(), ReviewActivity.class);
+                reviewIntent.putExtra("id", id);
+                reviewIntent.putExtra("title", title);
+                reviewIntent.putExtra("grade", grade);
+                startActivity(reviewIntent);
             }
         });
 

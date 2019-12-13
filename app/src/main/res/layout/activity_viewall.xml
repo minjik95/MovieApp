@@ -15,7 +15,8 @@
             android:id="@+id/commentsAllTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="군도"
+            android:text=""
+            android:textColor="@color/colorDarkGray"
             android:textSize="34dp"
             android:textStyle="bold"
             android:layout_marginLeft="10dp" />
@@ -25,7 +26,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/commentsAllTitle"
-            android:src="@drawable/ic_15"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="9dp"/>
 
@@ -71,18 +71,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="(" />
+                    android:text="("
+                    android:textColor="@color/colorDarkGray"/>
 
                 <TextView
                     android:id="@+id/commentsTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1,142" />
+                    android:text=""
+                    android:textColor="@color/colorDarkGray"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="명 참여)" />
+                    android:text="명 참여)"
+                    android:textColor="@color/colorDarkGray"/>
 
             </LinearLayout>
 

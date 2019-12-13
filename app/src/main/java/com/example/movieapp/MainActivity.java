@@ -6,10 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private Toolbar toolbar;
     private ListView listView;
-    private CommentsAdapter adapter;
+    private CommentsAdapter commentsAdapter;
 
     private ImageView movieMainImg;
     private ImageView movieAgeRating;
@@ -71,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Button thumbDown;
     private Button viewAllComments;
 
+    private RecyclerView recyclerView;
+
     private int thumbUpNumber = 0;
     private int thumbDownNumber = 0;
     private boolean thumbUpCheck = false;
@@ -85,6 +91,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String reservation_grade;
     private String grade;
     private String thumb;
+    private String photos;
+    private String videos;
+    private String[] array_photos;
+    private String[] array_videos;
     private String genre;
     private String duration;
     private String audience;
@@ -93,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String actor;
     private String like;
     private String dislike;
+
+    private MovieGalleryAdapter movieGalleryAdapter;
 
     private ArrayList<String> commentsId = new ArrayList<>();
     private ArrayList<String> commentsWriter = new ArrayList<>();
@@ -116,8 +128,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        id = intent.getExtras().getString("id");
-        Log.d("result: ", "" + id);
+        if(intent.getExtras() != null) {
+            id = intent.getExtras().getString("id");
+            Log.d("result: ", "" + id);
+        }
 
         if(requestQueue == null) requestQueue = Volley.newRequestQueue(getApplicationContext());
         sendRequest();
@@ -149,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         thumbDown = (Button) findViewById(R.id.thumbDown);
         viewAllComments = (Button) findViewById(R.id.viewAllComments);
 
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("영화 상세");
 
@@ -162,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        adapter = new CommentsAdapter();
+        commentsAdapter = new CommentsAdapter();
 
         thumbUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,6 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 Intent reviewIntent = new Intent(getApplicationContext(), ReviewActivity.class);
+                reviewIntent.putExtra("id", id);
                 reviewIntent.putExtra("title", title);
                 reviewIntent.putExtra("grade", grade);
                 startActivity(reviewIntent);
@@ -238,11 +255,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        movieGalleryAdapter = new MovieGalleryAdapter(this);
+
     }
 
     public void sendRequest() {
         String movieUrl = "http://boostcourse-appapi.connect.or.kr:10000/movie/readMovie?id=" + id;
         String commentUrl = "http://boostcourse-appapi.connect.or.kr:10000/movie/readCommentList?id=" + id + "&&limit=3";
+
+        Log.d("result2: ", "" + movieUrl + ", " + commentUrl);
 
         StringRequest movieRequest = new StringRequest(
                 Request.Method.GET,
@@ -298,6 +322,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             reservation_grade = readMovie.result.get(0).reservation_grade;
             grade = readMovie.result.get(0).grade;
             thumb = readMovie.result.get(0).thumb;
+            photos = readMovie.result.get(0).photos;
+            videos = readMovie.result.get(0).videos;
             genre = readMovie.result.get(0).genre;
             duration = readMovie.result.get(0).duration;
             audience = readMovie.result.get(0).audience;
@@ -308,7 +334,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             dislike = readMovie.result.get(0).dislike;
         }
 
+        Log.d("photos: ", "" + photos);
+        Log.d("videos: ", "" + videos);
+
+        if(photos != null) array_photos = photos.split(",");
+        if(videos!= null) array_videos = videos.split(",");
+
         setMovieInfo();
+
+        if(photos != null && videos != null) addItemsToMovieGalleryAdapter();
     }
 
     public void processCommentResponse(String response) {
@@ -328,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-        addItemsToAdapter();
+        addItemsToCommentsAdapter();
     }
 
     public void setMovieInfo() {
@@ -361,23 +395,62 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         movieActor.setText(actor);
     }
 
-    public void addItemsToAdapter() {
+    public void addItemsToMovieGalleryAdapter() {
+        for(int i = 0; i < array_photos.length; i++) movieGalleryAdapter.addItem(new MovieGalleryItem(array_photos[i], 0));
+        for(int i = 0; i < array_videos.length; i++) movieGalleryAdapter.addItem(new MovieGalleryItem(array_videos[i], 1));
+
+        recyclerView.setAdapter(movieGalleryAdapter);
+
+        Log.d("getItemCount: ", "" + movieGalleryAdapter.getItemCount());
+
+        movieGalleryAdapter.setOnItemClickListener(new MovieGalleryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(MovieGalleryAdapter.ViewHolder holder, View view, int position) {
+                MovieGalleryItem item = movieGalleryAdapter.getItem(position);
+
+                if(item.getPhoto() != null) {
+                    Toast.makeText(getApplicationContext(), "아이템 선택됨: " + position + ", " + item.getPhoto(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), ViewPictureActivity.class);
+                    intent.putExtra("pictureUrl", item.getPhoto());
+                    startActivity(intent);
+                }
+
+                if(item.getVideo() != null) {
+                    Toast.makeText(getApplicationContext(), "아이템 선택됨: " + position + ", " + item.getVideo(), Toast.LENGTH_LONG).show();
+                    String videoId = item.getVideo().replace("https://youtu.be/", "");
+                    watchYoutubeVideo(videoId);
+                }
+            }
+        });
+    }
+
+    public void watchYoutubeVideo(String id) {
+        Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent intent2 = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            startActivity(intent1);
+        } catch (ActivityNotFoundException e) {
+            startActivity(intent2);
+        }
+    }
+
+    public void addItemsToCommentsAdapter() {
 
         for(int i = 0; i < count; i++) {
             String time = calculateTime(commentsTime.get(i));
-            adapter.addItem(new CommentsItem(commentsId.get(i), commentsWriter.get(i), time, commentsRating.get(i), commentsContent.get(i), commentsRecommend.get(i)));
+            commentsAdapter.addItem(new CommentsItem(commentsId.get(i), commentsWriter.get(i), time, commentsRating.get(i), commentsContent.get(i), commentsRecommend.get(i)));
         }
 
-        Log.d("TAG", "" + adapter.getCount());
+        Log.d("TAG", "" + commentsAdapter.getCount());
 
-        listView.setAdapter(adapter);
+        listView.setAdapter(commentsAdapter);
 
         setListViewHeightBasedOnChildren(listView);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CommentsItem commentsItem = (CommentsItem) adapter.getItem(i);
+                CommentsItem commentsItem = (CommentsItem) commentsAdapter.getItem(i);
                 Toast.makeText(getApplicationContext(), "선택:" + commentsItem.getId(), Toast.LENGTH_LONG).show();
             }
         });
@@ -454,16 +527,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_list) {
             Toast.makeText(this, "첫번째 메뉴 선택됨", Toast.LENGTH_LONG).show();
-            /*Intent listIntent = new Intent(getApplicationContext(), MovieListActivity.class);
-            startActivity(listIntent);*/
         } else if (id == R.id.nav_review) {
             Toast.makeText(this, "두번째 메뉴 선택됨", Toast.LENGTH_LONG).show();
-            /*Intent reviewIntent = new Intent(getApplicationContext(), ReviewActivity.class);
-            startActivity(reviewIntent);*/
         } else if (id == R.id.nav_book) {
             Toast.makeText(this, "세번째 메뉴 선택됨", Toast.LENGTH_LONG).show();
-            /*Intent bookIntent = new Intent(getApplicationContext(), MovieListActivity.class);
-            startActivity(bookIntent);*/
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_detail);
